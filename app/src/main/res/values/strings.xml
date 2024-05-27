@@ -16,4 +16,15 @@
     <string name="stop_service">Stop Service</string>
     <string name="coach_d2">Coach D2</string>
     <string name="exit">Exit</string>
+    <string name="auto_control_board">Auto Control Board</string>
+    <string name="warning_to_manager">Warning to Manager</string>
+    <string name="warning_to_housekeeping">Warning to Housekeeping</string>
+    <string name="exitauto">Exit</string>
+    <string name="auto_mode">Auto Mode</string>
+    <string name="coach_no">Coach No</string>
+    <string name="coach_no_housekeeping">Coach No</string>
+    <string name="coach_no_hint1">Coach No</string>
+    <string name="coach_no_hint2">Coach No</string>
+    <string name="manual_control_board">Manual Control Board</string>
+    <string name="manual_mode">Manual Mode</string>
 </resources>

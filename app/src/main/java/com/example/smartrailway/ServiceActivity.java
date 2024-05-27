@@ -14,6 +14,7 @@ import android.os.IBinder;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +29,9 @@ public class ServiceActivity extends AppCompatActivity {
     public TextView coachD2Concentration;
     public TextView coachD10Concentration;
     private MyForegroundService mService;
-
-    public  Button exitbtn;
+    public  Button exitBtn;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    public  Switch autoBtn;
     private boolean mBound = false;
 
     int coachD2Measure;
@@ -47,7 +49,7 @@ public class ServiceActivity extends AppCompatActivity {
             Toast.makeText(ServiceActivity.this, "CoachD2 : " + coachD2Measure+"\nCoachD10 : "+coachD10Measure, Toast.LENGTH_SHORT).show();
             coachD2Concentration.setText(coachD2MeasureStr);
             coachD10Concentration.setText(coachD10MeasureStr);
-            if(coachD2Measure >= 550 || coachD10Measure >=550){
+            if(coachD2Measure >= 400 || coachD10Measure >= 400){
                 if(ContextCompat.checkSelfPermission(ServiceActivity.this, android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
                     msgControl();
                 }
@@ -83,7 +85,8 @@ public class ServiceActivity extends AppCompatActivity {
         Button stopServiceButton = findViewById(R.id.stopServiceButton);
         coachD2Concentration = findViewById(R.id.coachD2Concentration);
         coachD10Concentration = findViewById(R.id.coachD10Concentration);
-        exitbtn = findViewById(R.id.exitbtn);
+        exitBtn = findViewById(R.id.exitBtn);
+        autoBtn = findViewById(R.id.autoBtn);
 
         startServiceButton.setOnClickListener(v -> {
             Log.d("click Start","Service started");
@@ -101,7 +104,14 @@ public class ServiceActivity extends AppCompatActivity {
             Toast.makeText(ServiceActivity.this, "Service stopped", Toast.LENGTH_SHORT).show();
         });
 
-        exitbtn.setOnClickListener(v->{
+        autoBtn.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                Intent intent = new Intent(ServiceActivity.this, AutoControl.class);
+                startActivity(intent);
+            }
+        });
+
+        exitBtn.setOnClickListener(v->{
             stopServiceButton.performClick();
             Intent intent = new Intent(ServiceActivity.this,MainActivity.class);
             startActivity(intent);
@@ -151,17 +161,17 @@ public class ServiceActivity extends AppCompatActivity {
         String warningHousingKeeping = "Warning to House keeping staff for clean toilet in ";
         String warningManager = "Warning to Manager for clean toilet in ";
 
-        if((coachD2Measure >=550 && coachD2Measure<800) && (coachD10Measure >=550 && coachD10Measure<800)){
+        if((coachD2Measure >=400 && coachD2Measure<700) && (coachD10Measure >=400 && coachD10Measure<700)){
             phone=houseKeeping;
             message = warningHousingKeeping+"Coach-D2 and Coach-D10";
             sendMsg();
-        }else if((coachD2Measure >=800 && coachD2Measure<1250) && (coachD10Measure >=800 && coachD10Measure<1250)){
+        }else if((coachD2Measure >=700) && (coachD10Measure >=700)){
             phone=manager;
             message = warningManager+"Coach-D2 and Coach-D10";
             sendMsg();
             //add alarm for notification
         }
-        else if((coachD2Measure >=550 && coachD2Measure<800) &&  (coachD10Measure >=800 && coachD10Measure<1250)){
+        else if((coachD2Measure >=400 && coachD2Measure<700) &&  (coachD10Measure >=700)){
             phone=houseKeeping;
             message = warningHousingKeeping+"Coach-D2";
             sendMsg();
@@ -169,7 +179,7 @@ public class ServiceActivity extends AppCompatActivity {
             message=warningManager+"Coach-D10";
             sendMsg();
         }
-        else if((coachD2Measure >=800 && coachD2Measure<1250) && (coachD10Measure >=550 && coachD10Measure<800)){
+        else if((coachD2Measure >=700) && (coachD10Measure >=400 && coachD10Measure < 700)){
             phone=manager;
             message = warningManager+"Coach-D2";
             sendMsg();
@@ -177,19 +187,19 @@ public class ServiceActivity extends AppCompatActivity {
             message= warningHousingKeeping+"Coach-D10";
             sendMsg();
         }
-        else if(coachD2Measure >=550 && coachD2Measure<800){
+        else if(coachD2Measure >=400 && coachD2Measure<700){
             phone=houseKeeping;
             message = warningHousingKeeping+"Coach-D2";
             sendMsg();
-        }else if(coachD2Measure >=800 && coachD2Measure<1250){
+        }else if(coachD2Measure >=700){
             phone=manager;
             message=warningManager+"Coach-D2";
             sendMsg();
-        }else if(coachD10Measure >=550 && coachD10Measure<800){
+        }else if(coachD10Measure >=400 && coachD10Measure<700){
             phone=houseKeeping;
             message = warningHousingKeeping+"Coach-D10";
             sendMsg();
-        }else if(coachD10Measure >=800 && coachD10Measure<1250){
+        }else if(coachD10Measure >=700){
             phone=manager;
             message=warningManager+"Coach-D10";
             sendMsg();

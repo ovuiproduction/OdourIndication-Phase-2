@@ -31,7 +31,7 @@ public class MyForegroundService extends Service implements onRequestPermissions
     private static final String TAG = "MyForegroundService";
     private static final int NOTIFICATION_ID = 123;
     private static final String CHANNEL_ID = "MyForegroundServiceChannel";
-    private static final long FETCH_INTERVAL = 60000; // Fetch data every 1 minute
+    private static final long FETCH_INTERVAL = 30000; // Fetch data every 1 minute
 
     public static final String STOP_FOREGROUND_ACTION = "stopForeground";
 
